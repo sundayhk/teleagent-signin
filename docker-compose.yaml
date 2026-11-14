@@ -8,5 +8,7 @@ services:
       - "5689:5689"
     volumes:
       - ./data:/app/data          # 账号、日志持久化
+    environment:
+      - TZ=Asia/Shanghai
     env_file:
       - .env                      # 所有配置从同目录 .env 读取，见 .env.example

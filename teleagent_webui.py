@@ -13,13 +13,13 @@
   - 内置定时器：每天 0 点 5 分自动签到，服务重启当天会补签；也可 WebUI 手动触发
 
 用法：
-    python3 teleagent_webui.py            # 启动 WebUI + 定时签到，默认端口 5689
+    python3 teleagent_webui.py            # 启动 WebUI + 定时签到，默认端口 8002
     python3 teleagent_webui.py run        # 只跑一轮签到（供 crontab 调用），不启 WebUI
     python3 teleagent_webui.py status     # 命令行看一遍账号状态
 
 环境变量：
     WEBUI_PASSWORD      WebUI 登录密码，默认 admin123（务必修改）
-    TELE_PORT           监听端口，默认 5689
+    TELE_PORT           监听端口，默认 8002
     TELE_TOKEN / TELE_CHAT_ID  Telegram 推送（已内置默认值，可覆盖）
     TELE_PROXY          可选，Telegram 代理，如 http://127.0.0.1:7890
     TELEAGENT_PROXY     可选，TeleAgent 站点访问代理
@@ -52,7 +52,7 @@ DATA_FILE = os.path.join(DATA_DIR, "accounts.json")
 LOG_FILE = os.path.join(DATA_DIR, "logs.json")
 
 WEBUI_PASSWORD = os.environ.get("WEBUI_PASSWORD", "admin123")
-PORT = int(os.environ.get("TELE_PORT", "5689"))
+PORT = int(os.environ.get("TELE_PORT", "8002"))
 SIGN_HOUR = int(os.environ.get("TELE_SIGN_HOUR", "0"))
 SIGN_MINUTE = 5  # 自动签到锚点：SIGN_HOUR:05
 
