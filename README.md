@@ -26,14 +26,14 @@ vim .env                 # 修改 WEBUI_PASSWORD（务必！），确认 TG toke
 docker compose up -d --build
 ```
 
-访问 `http://服务器IP:5689` 登录即可。
+访问 `http://服务器IP:8002` 登录即可。
 
 ## 配置（.env）
 
 | 变量 | 说明 | 默认 |
 |---|---|---|
 | `WEBUI_PASSWORD` | WebUI 登录密码 | `admin123`（**务必修改**） |
-| `TELE_PORT` | 容器内监听端口 | `5689` |
+| `TELE_PORT` | 容器内监听端口 | `8002` |
 | `TELE_SIGN_HOUR` | 每日自动签到小时（0-23），固定在该小时第 5 分触发 | `0` |
 | `TELE_TOKEN` | Telegram Bot Token | 已内置 |
 | `TELE_CHAT_ID` | Telegram Chat ID | 已内置 |
@@ -45,13 +45,20 @@ docker compose up -d --build
 
 ## 获取 Token
 
-浏览器登录 https://ta.teleai.com.cn/ 后：
+**关键：必须先访问签到活动页面 `https://agent.teleai.com.cn/teleagent`**，`x-token` 只在访问这个页面后才会下发。在 `ta.teleai.com.cn` 登录页或站点首页的 Cookies 里是看不到 `x-token` 的，能看到的是 `operToken` 等其他 cookie，那些不是本脚本要的凭证。
 
-1. F12 打开开发者工具 → **Application** → **Cookies** → 复制 `x-token` 的值
-2. WebUI「添加账号」→ 填备注 → 粘贴 Token → 保存
-3. 点该账号行的「签到」测试一次
+步骤：
 
-> 也支持直接粘贴整串 Cookie（脚本自动抽取其中的 x-token）。
+1. 浏览器登录后，打开 **https://agent.teleai.com.cn/teleagent**（积分福利社活动页）
+2. F12 打开开发者工具 → **Application** → **Cookies** → `https://agent.teleai.com.cn` → 找到名为 **`x-token`** 的行，复制其 Value
+   - 正常的 x-token 是 JWT 格式：`xxx.yyy.zzz` 三段、两个点、几百个字符
+   - 如果列表里没有 `x-token`，先刷新一下该页面（登录后会重新下发）
+3. WebUI「添加账号」→ 填备注 → 粘贴 Token → 保存
+4. 点该账号行的「签到」测试一次
+
+> 也支持直接粘贴整串 Cookie（脚本自动抽取其中的 `x-token=`），但同样必须在活动页复制，且整串里要确实包含 `x-token` 这一项。
+
+常见坑：从别的页面复制了一串 cookie 粘进去，结果存进去的是 `UM_distinctid / operToken / CNZZDATA...` 那种，签到会报 `INVALID（JWT 解析失败）`——这就是没拿到 x-token，回活动页按上面步骤重抓即可。
 
 Token 是登录态凭证，会过期。过期后账号状态显示 `INVALID`，抓新的 Token 点「换Token」替换即可。
 

@@ -5,7 +5,7 @@ services:
     container_name: teleagent-signin
     restart: unless-stopped
     ports:
-      - "5689:5689"
+      - "8002:8002"
     volumes:
       - ./data:/app/data          # 账号、日志持久化
     environment:
