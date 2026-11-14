@@ -49,7 +49,7 @@ docker compose up -d --build
 
 步骤：
 
-1. 浏览器登录后，打开 **https://agent.teleai.com.cn/teleagent**（积分福利社活动页）
+1. 浏览器登录后，打开 https://agent.teleai.com.cn/teleagent
 2. F12 打开开发者工具 → **Application** → **Cookies** → `https://agent.teleai.com.cn` → 找到名为 **`x-token`** 的行，复制其 Value
    - 正常的 x-token 是 JWT 格式：`xxx.yyy.zzz` 三段、两个点、几百个字符
    - 如果列表里没有 `x-token`，先刷新一下该页面（登录后会重新下发）
